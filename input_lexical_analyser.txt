@@ -1,0 +1,6 @@
+void main(){
+
+    //this is a comment
+    int x = 512;
+    print(x);
+}
