@@ -1,21 +1,35 @@
-//DOESNT WORK
-
-
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
 #include<ctype.h>
-#include<stdlib.h>
 
 char str[100];
-int i = 0;
-int S();
 int A();
+int S();
+int i;
 
-int S(){
+void main()
+{
+    printf("Enter the input : ");
+    scanf("%s", str);
+    i=0;
+    if(S() == 1 && str[i] == '\0')
+    {
+        printf("String Accepted\n");
+    }
+    else
+    {
+        printf("String not Accepted\n");
+    }
+}
 
-    if(str[i] == 'c'){
+int S()
+{
+    if(str[i] == 'c')
+    {
         i++;
-        if(A()){
+        if(A() == 1)
+        {
             if(str[i] == 'd')
             {
                 i++;
@@ -23,50 +37,22 @@ int S(){
             }
         }
     }
-
+    
     return 0;
 }
 
-// int A(){
-
-//     if(str[i] == 'a'){
-//         i++;
-//         if(str[i] == 'b'){
-//             i++;
-//             return 1;
-//         }
-//         return 1;
-//     }
-
-
-//     return 0;
-// }
-
-int Adash(){
-    if(str[i] == 'b'){
+int A()
+{
+    if(str[i] == 'a')
+    {
         i++;
-        return 1;
-    }
-    return 1;
-}
-
-int A(){
-    if(str[i]=='a'){
-        i++;
-        if(Adash() == 1){
+        if(str[i] == 'b')
+        {
+            i++;
             return 1;
         }
+        return 1;
     }
 
     return 0;
-}
-
-void main(){
-    printf("Enter the input string : ");
-    scanf("%s", &str);
-
-    if(str[i] == '\0' && S() == 1)
-        printf("String Accepted");
-    else
-        printf("String not accepted");
 }
