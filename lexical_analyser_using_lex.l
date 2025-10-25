@@ -40,6 +40,8 @@ main    {   if(!comment)printf("%s\tKeyword\n", yytext);    }
 [0-9]+  {   if(!comment)printf("%s\tNumber\n", yytext); }
 "/*"    {   comment = 1;    printf("%s\tComment\n", yytext); }
 "*/"  {   comment = 0;    }
+"//"    {   comment = 2;    printf("%s\tComment\n", yytext); }
+[\n]    {   if(comment==2) comment=0;}
 %%
 int yywrap()
 {   
@@ -47,7 +49,7 @@ int yywrap()
 }
 void main()
 {
-    FILE *file = fopen("input1.c","r");
+    FILE *file = fopen("input_lexical_analyser.txt","r");
     if(!file)
     {
         printf("File load error\n");
