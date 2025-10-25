@@ -3,3 +3,9 @@
 
 # VS Code editor folder
 .vscode/
+
+a.out
+
+lex.yy.c
+
+y.tab.c
