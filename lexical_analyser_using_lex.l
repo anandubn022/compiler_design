@@ -53,7 +53,7 @@ void main()
     if(!file)
     {
         printf("File load error\n");
-        exit(0);
+        exit(1);
     }
     else
         printf("File Loaded\n");
