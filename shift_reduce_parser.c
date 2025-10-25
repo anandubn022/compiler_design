@@ -62,7 +62,7 @@ void main()
     c=strlen(input);
 
     printf("Stack\tInput\tAction\n");
-    for (j < c; i++, j++)
+    for (i=0; j < c; i++, j++)
     {
         if (input[j]=='i' && input[j+1]=='d')
         {
