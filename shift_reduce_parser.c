@@ -79,6 +79,7 @@ void main()
         {
             stk[i]=input[j];
             stk[i+1]='\0';
+            input[j]=' ';
             printf("%s\t%s\tSHIFT->symbols\n", stk, input);
             check();
         }
