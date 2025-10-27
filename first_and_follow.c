@@ -28,6 +28,7 @@ void main()
     do
     {
         m=0;
+        strcpy(f, "");
         printf("enter the element : ");
         scanf(" %c", &c); // <-- FIX 1
         first(c);
