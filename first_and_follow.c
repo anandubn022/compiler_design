@@ -4,6 +4,7 @@
 #include<string.h>
 #include<ctype.h>
 #include<stdbool.h>
+#include<math.h>
 
 int n, m, i, j, k, z;
 char a[100][100], f[100], c;
@@ -23,16 +24,11 @@ void main()
     {
         scanf("%s%c", a[q], &ch); // This is fine
     }
-    printf("the productions : \n"); // Added \n for cleaner output
-    for (int q = 0; q < n; q++)
-    {
-        printf("%s\n", a[q]);
-    }
     
     do
     {
         m=0;
-        strcpy(f, "");
+        
         printf("enter the element : ");
         scanf(" %c", &c); // <-- FIX 1
         first(c);
@@ -55,31 +51,6 @@ void main()
         scanf("%d%c", &z, &ch); // This is fine
     } while (z==1);
     
-}
-
-void follow(char c)
-{
-    if(a[0][0]==c)
-    {
-        f[m++] = '$';
-    }
-    for(i=0; i<n; i++)
-    {
-        for(j=2; j<strlen(a[i]); j++)
-        {
-            if(a[i][j] == c)
-            {
-                if(a[i][j+1]!='\0')
-                {
-                    firstF(a[i][j+1], a[i][0], i, j+2);
-                }
-                if(a[i][j+1]=='\0' && a[i][0]!=c)
-                {
-                    follow(a[i][0]);
-                }
-            }
-        }
-    }
 }
 
 void first(char c)
@@ -136,6 +107,31 @@ void firstT(char c, int x, int y)
             else
             {
                 firstT(a[k][2], k, 3);
+            }
+        }
+    }
+}
+
+void follow(char c)
+{
+    if(a[0][0]==c)
+    {
+        f[m++] = '$';
+    }
+    for(i=0; i<n; i++)
+    {
+        for(j=2; j<strlen(a[i]); j++)
+        {
+            if(a[i][j] == c)
+            {
+                if(a[i][j+1]!='\0')
+                {
+                    firstF(a[i][j+1], a[i][0], i, j+2);
+                }
+                if(a[i][j+1]=='\0' && a[i][0]!=c)
+                {
+                    follow(a[i][0]);
+                }
             }
         }
     }

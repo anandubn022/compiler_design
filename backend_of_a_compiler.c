@@ -20,8 +20,7 @@ void main()
     do
     {
         /* code */
-        strcpy(str, icode[i]);
-        switch (str[3])
+        switch (icode[i][3])
         {
         case '+':
             /* code */
@@ -47,9 +46,9 @@ void main()
             break;
         }
 
-        printf("MOV %c, R%d \n", str[2], i);
-        printf("%s %c, R%d \n", op1, str[4], i);
-        printf("MOV R%d, %c \n", i, str[0]);
+        printf("MOV %c, R%d \n", icode[i][2], i);
+        printf("%s %c, R%d \n", op1, icode[i][4], i);
+        printf("MOV R%d, %c \n", i, icode[i][0]);
 
     } while (strcmp(icode[++i], "exit")    );
     
