@@ -1,4 +1,4 @@
-//Outputs but incorrect
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -6,8 +6,8 @@
 #include<stdbool.h>
 #include<math.h>
 
-int n, m, i, j, k, z;
-char a[100][100], f[100], c;
+int n, m, i, j;
+char a[100][100], f[100], c, z;
 
 void first(char c);
 void follow(char c);
@@ -22,13 +22,12 @@ void main()
     printf("enter the productions : ");
     for (int q = 0; q < n; q++)
     {
-        scanf("%s%c", a[q], &ch); // This is fine
+        scanf("%s", a[q]); // This is fine
     }
     
     do
     {
         m=0;
-        
         printf("enter the element : ");
         scanf(" %c", &c); // <-- FIX 1
         first(c);
@@ -47,9 +46,9 @@ void main()
             printf("%c", f[q]);
         }
         printf("\n");
-        printf("continue?[1 for y/0 for n] : "); // Made prompt clearer
-        scanf("%d%c", &z, &ch); // This is fine
-    } while (z==1);
+        printf("continue?[y/n] : "); // Made prompt clearer
+        scanf(" %c", &z); // This is fine
+    } while (z=='y'||z=='Y');
     
 }
 
@@ -59,6 +58,7 @@ void first(char c)
     {
         f[m++] = c;
     }
+    int k;
     for(k=0; k<n; k++)
     {
         if(a[k][0] == c)
@@ -85,6 +85,7 @@ void firstT(char c, int x, int y)
     {
         f[m++]=c;
     }
+    int k;
     for(k=0; k<n; k++)
     {
         if(a[k][0] == c)
@@ -143,6 +144,7 @@ void firstF(char c, char w, int x, int y)
     {
         f[m++]=c;
     }
+    int k;
     for(k=0; k<n; k++)
     {
         if(a[k][0] == c)
