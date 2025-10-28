@@ -1,195 +1,157 @@
-#include<stdlib.h>
-#include<string.h>
-#include<ctype.h>
 #include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<math.h>
+#include<ctype.h>
+#include<stdbool.h>
 
-void stack_push(char item);
-char stack_pop();
-int is_operator(char symbol);
-int precedence(char symbol);
-void infix_to_postfix(char infix_expression[], char postfix_expression[]);
-
-char stack1[100], stack2[100];
-int top = -1;
 #define SIZE 100
+char stack[SIZE];
+int top = -1;
 
-void main()
-{
-    char infix_expression[SIZE], postfix_expression[100];
-    printf("Enter the infix expression : ");
-    scanf("%s", infix_expression);
-    infix_to_postfix(infix_expression, postfix_expression);
-    printf("The postfix expression : %s\n", postfix_expression);
+int is_operator(char);
+int precedence(char c);
+void push(char);
+char pop();
 
-    char x, y;
-    int i=0, k=1;
-    while (postfix_expression[i] != '$')
-    {
-        /* code */
-        if (isalpha(postfix_expression[i] ))
-        {
-            /* code */
-            stack_push(postfix_expression[i]);
-        }
-        else if (postfix_expression[i] == '+' || postfix_expression[i] == '-' || postfix_expression[i] == '*' || postfix_expression[i] == '/' || postfix_expression[i] == '^')
-        {
-            /* code */
-            x = stack_pop();
-            y = stack_pop();
-            if (x=='t')
-            {
-                /* code */
-                printf("%c %c t%d t%d \n", postfix_expression[i], y, k, k+1);
-            }
-            else if (y=='t')
-            {
-                /* code */
-                printf("%c t%d %c t%d \n", postfix_expression[i], k, x, k+1);
-            }
-            
-            else
-                printf("%c %c %c t%d \n", postfix_expression[i], y, x, k);
-            stack_push('t');
-        }
-        
-        i++;
-    }
-    
-}
-
-int is_operator(char symbol)
-{
-    if (symbol == '+' || symbol == '-' || symbol == '*' || symbol == '/' || symbol == '^')
-    {
-        /* code */
-        return 1;
-    }
-    return 0;
-    
-}
-
-int precedence(char symbol)
-{
-    if (symbol == '^')
-    {
-        /* code */
-        return 3;
-    }
-    else if (symbol == '*' || symbol == '/')
-    {
-        /* code */
-        return 2;
-    }
-    else if (symbol == '+' || symbol == '-')
-    {
-        /* code */
-        return 1;
-    }
-    else
-        return 0;
-    
-}
-
-void infix_to_postfix(char infix_expression[], char postfix_expression[])
+void infixtopostfix(char _infix[], char _postfix[])
 {
     int i=0, j=0;
-    char item, x;
-
-    stack_push('(');
-    strcat(infix_expression, ")");
-    item = infix_expression[i];
+    push('(');
+    strcat(_infix, ")");
+    char item = _infix[i];
     while (item!='\0')
     {
-        /* code */
-        if (item == '(')
+        if(item == '(')
+            push(item);
+
+        else if(isdigit(item)||isalpha(item))
         {
-            /* code */
-            stack_push(item);
-        }
-        else if (isalpha(item) || isdigit(item))
-        {
-            /* code */
-            postfix_expression[j] = item;
+            _postfix[j] = item;
             j++;
         }
+
         else if (is_operator(item))
         {
-            /* code */
-            x = stack_pop();
+            char x = pop();
             while (is_operator(x) && precedence(x) >= precedence(item))
             {
-                /* code */
-                postfix_expression[j] = x;
+                _postfix[j] = x;
                 j++;
-                x = stack_pop();
+                x = pop();
             }
-            
-            stack_push(x);
-            stack_push(item);
+            push(x);
+            push(item);
         }
-        
-        else if (item == ')')
+        else if(item == ')')
         {
-            /* code */
-            x = stack_pop();
-            while (x != '(')
+            char x = pop();
+            while (x!='(')
             {
-                /* code */
-                postfix_expression[j] = x;
+                _postfix[j] = x;
                 j++;
-                x = stack_pop();
+                x = pop();
             }
             
         }
-        else
+        else 
         {
-            printf("Invalid Infix Expression\n");
-            getchar();
+            printf("invalid expression\n");
             exit(1);
         }
         i++;
-        item = infix_expression[i];
-        
+        item = _infix[i];
     }
-    if (top > 0)
+
+    if(top>0)
     {
-        /* code */
-        printf("Invalid Postfix Expression");
-        getchar();
+        printf("ivalid expression\n");
         exit(1);
     }
-
-    postfix_expression[j] = '$';
-    
+    _postfix[j] = '$';
 }
 
-void stack_push(char item)
+void main()
 {
-    if (top >= SIZE - 1)
+    char infix[SIZE], postfix[SIZE], x, y;
+    printf("Enter the infix expression : ");
+    scanf("%s", infix);
+    infixtopostfix(infix, postfix);
+    printf("postfix expression : %s\n", postfix);
+
+    int i=0;
+    while(postfix[i]!='$')
     {
-        /* code */
-        printf("Stack Overflow\n");
+        int k=1;
+        if(isalpha(postfix[i]))
+        {
+            push(postfix[i]);
+        }
+        else if(postfix[i]=='+'||postfix[i]=='-'||postfix[i]=='/'||postfix[i]=='*'||postfix[i]=='^')
+        {
+            x=pop();
+            y=pop();
+            if(x=='t')
+            {
+                printf("%c  %c  t%d    t%d\n", postfix[i], y, k, k+1);
+                k++;
+            }
+            else if(y=='t')
+            {
+                printf("%c  t%d %c  t%d\n", postfix[i], k, x, k+1);
+                k++;
+            }
+            else
+            {
+                printf("%c  %c  %c  t%d\n", postfix[i], y, x, k);
+            }
+            push('t');
+        }
+        i++;
+    }
+}
+
+int is_operator(char c)
+{
+    if(c=='+'||c=='-'||c=='*'||c=='/'||c=='^')
+        return 1;
+    return 0;
+}
+
+int precedence(char c)
+{
+    if(c=='^')
+        return 3;
+    else if(c=='*'||c=='/')
+        return 2;
+    else if(c=='+'||c=='-')
+        return 1;
+    else
+        return 0;
+}
+
+void push(char item)
+{
+    if(top>=SIZE-1)
+        printf("Stack full");
+    else
+    {
+        top++;
+        stack[top]=item;
+    }
+}
+
+char pop()
+{
+    if(top<0)
+    {
+        printf("stack empty");
+        exit(1);
     }
     else
     {
-        top += 1;
-        stack1[top] = item;
+        char item = stack[top];
+        top--;
+        return item;
     }
-    
-}
-
-char stack_pop()
-{
-    char item;
-    if (top < 0)
-    {
-        /* code */
-        printf("Stack Underflow\n");
-        getchar();
-        exit(1);
-
-    }
-    item = stack1[top];
-    top -= 1;
-    return item;
 }
